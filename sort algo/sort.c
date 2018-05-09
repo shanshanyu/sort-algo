@@ -59,3 +59,27 @@ void quicksort(int s[], int left, int right) {
 	quicksort(s, left, i - 1);
 	quicksort(s, i + 1, right);
 }
+void merge(int s[], int low, int mid, int high) {
+	int i, j, k;
+	i = low;
+	j = mid + 1;
+	k = 0;
+	int *temp = malloc((high - low + 1)*sizeof(int));//here
+	if (!temp) return;
+	while (i <= mid && j <= high) {
+		if (s[i] < s[j])temp[k++] = s[i++];
+		else temp[k++] = s[j++];
+	}
+	while (i <= mid) temp[k++] = s[i++];  //here
+	while (j <= high)temp[k++] = s[j++];
+	for (i = 0;i < k;i++) s[low+i] = temp[i];//here
+}
+void mergesort(int s[], int low, int high) {
+	int mid;
+	if (low < high) {
+		mid = (low + high) / 2;
+		mergesort(s, low, mid);
+		mergesort(s, mid + 1, high);
+		merge(s, low, mid, high);
+	}
+}
